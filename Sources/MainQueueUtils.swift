@@ -12,12 +12,6 @@ public func delay(for delayTime: Double?, action: @escaping  () -> Void) {
     }
 }
 
-public func delay(for delayTime: Double?, action: @escaping  () async -> Void) async {
-    let delay = UInt64((delayTime ?? 0.0) * 1_000_000_000)
-    try? await Task<Never, Never>.sleep(nanoseconds: delay)
-    await action()
-}
-
 /// Runs a block of code using DispatchQueue's asyncAfter method on Main queue.
 ///
 /// ❗️Mind the capture semantics; *action* is captured immediately on *delay* call.
