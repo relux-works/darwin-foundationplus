@@ -2,7 +2,7 @@ import Foundation
 
 import Foundation
 
-public struct DayOfYear: Codable {
+public struct DayOfYear: Codable, Hashable {
     private static let calendar = Calendar(identifier: .gregorian)
     private var components: DateComponents
 
