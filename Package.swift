@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "darwin-foundationplus",
 	platforms: [
-		.iOS(.v13),
+		.iOS(.v15),
 		.watchOS(.v6),
 		.macOS(.v10_15),
 		.tvOS(.v13)

@@ -16,3 +16,16 @@ public func measure(_ action: () async -> ()) async -> Double {
     return end.timeIntervalSince(start)
 }
 
+public func measure(_ action: () -> (), log: (TimeInterval)->()) {
+    let start = Date()
+    action()
+    let end = Date()
+    log(end.timeIntervalSince(start))
+}
+
+public func measure(_ action: () async -> (), log: (TimeInterval)->()) async {
+    let start = Date()
+    await action()
+    let end = Date()
+    log(end.timeIntervalSince(start))
+}

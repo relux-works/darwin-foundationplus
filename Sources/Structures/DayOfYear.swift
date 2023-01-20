@@ -2,7 +2,7 @@ import Foundation
 
 import Foundation
 
-public struct DayOfYear: Codable, Hashable {
+public struct DayOfYear: Codable, Hashable, Comparable {
     private static let calendar = Calendar(identifier: .gregorian)
     private var components: DateComponents
 
@@ -34,5 +34,9 @@ public struct DayOfYear: Codable, Hashable {
         let month = date.get(.month, calendar: DayOfYear.calendar)
         let day = date.get(.day, calendar: DayOfYear.calendar)
         return "\(year)-\(month)-\(day)"
+    }
+
+    public static func < (lhs: Self, rhs: Self) -> Bool {
+        (lhs.date ?? .now) < (rhs.date ?? .now)
     }
 }
