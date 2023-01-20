@@ -1,5 +1,9 @@
 import Foundation
 
+public extension TimeInterval {
+	static var oneDay: TimeInterval { 86400 }
+}
+
 public extension Date {
     enum DateFormat: String {
         case defaultDate = "dd/MM/yy"
