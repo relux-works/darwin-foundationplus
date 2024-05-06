@@ -1,9 +1,5 @@
 import Foundation
 
-public extension TimeInterval {
-	static var oneDay: TimeInterval { 86400 }
-}
-
 public extension Date {
     enum DateFormat: String {
         case defaultDate = "dd/MM/yy"
@@ -17,6 +13,7 @@ public extension Date {
         case dateAsDDMMMMYYYY = "dd MMMM yyyy"
         case dateAsMMMDDYYYY = "MMM dd, yyyy"
         case dateAsMMMDD = "MMM dd"
+        case dateAsMMMM = "MMMM"
         case dateAsDayOfWeek = "EEEE"
         case dateAsDayOfWeekShort = "EEE"
         case dateAsHHmm = "HH:mm"
@@ -28,6 +25,7 @@ public extension Date {
 }
 
 public extension String {
+
     func asUtcDate(format: String) -> Date? {
         let formatter = DateFormatter()
         formatter.dateFormat = format
@@ -52,6 +50,10 @@ public extension String {
         }
 
         return result
+    }
+
+    var asUtcDate: Date? {
+        ISO8601DateFormatter().date(from: self)
     }
 }
 
@@ -297,6 +299,14 @@ public extension Date {
 
     var startOfWeek: Date? {
         Calendar.current.dateComponents([.calendar, .yearForWeekOfYear, .weekOfYear], from: self).date
+    }
+
+    var startOfMonth: Date? {
+        Calendar.current.dateComponents([.calendar, .year, .month], from: self).date
+    }
+
+    var endOfMonth: Date? {
+        Calendar.current.dateComponents([.calendar, .year, .month], from: self).date?.add(months: 1).add(seconds: -1)
     }
 
     var endOfDay: Date {

@@ -31,3 +31,20 @@ public enum Cadence {
         }
     }
 }
+
+public extension Date {
+    func apply(cadence: Cadence, value: Int) -> Date {
+        switch cadence {
+            case .minutes: return self.add(minutes: value)
+            case .hours: return self.add(hours: value)
+            case .days: return self.add(days: value)
+            case .weeks: return self.add(days: 7 * value)
+            case .months: return self.add(months: value)
+            case .years: return self.add(years: value)
+        }
+    }
+
+    mutating func applying(cadence: Cadence, value: Int) {
+        self = self.apply(cadence: cadence, value: value)
+    }
+}

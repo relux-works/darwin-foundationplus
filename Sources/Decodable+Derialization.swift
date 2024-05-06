@@ -1,19 +1,24 @@
 import Foundation
 
 public extension Decodable {
-    static func decode(from data: Data?) -> Self? {
+    static func decode(from data: Data?, logErr: Bool = false) -> Self? {
         guard let data = data else {
             return nil
         }
-        return try? JSONDecoder().decode(Self.self, from: data)
+        do {
+            return try JSONDecoder().decode(Self.self, from: data)
+        } catch {
+            if logErr { print("decoding error: \(error)") }
+            return nil
+        }
     }
 }
 
 
 public extension Decodable {
-    init?(fromJsonData: Data?) {
+    init?(fromJsonData: Data?, logErr: Bool = false) {
         if fromJsonData != nil,
-           let instance = Self.decode(from: fromJsonData) {
+            let instance = Self.decode(from: fromJsonData, logErr: logErr) {
             self = instance
         } else {
             return nil
