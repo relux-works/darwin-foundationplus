@@ -1,5 +1,3 @@
-import Foundation
-
 public final class ActorEntrancy {
     private let semaphore = AsyncSemaphore(value: 1)
 
