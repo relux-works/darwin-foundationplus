@@ -1,10 +1,13 @@
 import Combine
 
-extension AnyPublisher: @unchecked @retroactive Sendable where Output: Sendable, Failure: Sendable {}
-extension Published.Publisher: @unchecked @retroactive Sendable where Value: Sendable, Failure: Sendable {}
-extension Never: Sendable {}
-extension PassthroughSubject: @unchecked @retroactive Sendable where Output: Sendable, Failure: Sendable {}
-extension Publishers.AsyncMap: Sendable where Upstream: Sendable {}
+// awaits until xcode 16 be released
+// for now we understand that Combine Map causes warnings in Swift 6 concurrency
+
+//extension AnyPublisher: @unchecked @retroactive Sendable where Output: Sendable, Failure: Sendable {}
+//extension Published.Publisher: @unchecked @retroactive Sendable where Value: Sendable, Failure: Sendable {}
+//extension Never: Sendable {}
+//extension PassthroughSubject: @unchecked @retroactive Sendable where Output: Sendable, Failure: Sendable {}
+//extension Publishers.AsyncMap: Sendable where Upstream: Sendable {}
 
 extension Publishers {
 	public struct AsyncMap<Upstream: Publisher, Output: Sendable>: Publisher where Upstream.Output: Sendable {
