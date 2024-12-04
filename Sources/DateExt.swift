@@ -9,6 +9,7 @@ public extension Date {
         case rfc1123 = "EEE',' dd MMM yyyy HH':'mm':'ss z"
         case avatarDate = "yyy-MM-dd'T'HH:mm:ss'Z'"
         case dateDashed = "yyyy-MM-dd'T'HH:mm:ss z"
+        case dateAsDMMMM = "d MMMM"
         case dateAsDDMMMM = "dd MMMM"
         case dateAsDDMMMMYYYY = "dd MMMM yyyy"
         case dateAsMMMDDYYYY = "MMM dd, yyyy"
