@@ -12,7 +12,7 @@ public extension Sequence where Element: AnyDated {
     }
 }
 
-public enum Cadence {
+public enum Cadence: Sendable {
     case years
     case months
     case weeks
