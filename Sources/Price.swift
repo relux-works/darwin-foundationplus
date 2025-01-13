@@ -46,6 +46,13 @@ public enum Currency: ICurrency {
     }
 }
 
+extension Price: Equatable where C == Currency {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.currency == rhs.currency
+        && lhs.value == rhs.value
+    }
+}
+
 
 #if canImport(Darwin)
 import Darwin
