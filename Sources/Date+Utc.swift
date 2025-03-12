@@ -31,3 +31,5 @@ public extension Date {
         Formatter.utcWithMSFormatter.string(from: self)
     }
 }
+
+extension ISO8601DateFormatter: @retroactive @unchecked Sendable { }

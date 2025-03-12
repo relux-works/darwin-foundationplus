@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 
-private var subscriptions: Set<AnyCancellable> = []
+private nonisolated(unsafe) var subscriptions: Set<AnyCancellable> = []
 
 extension Published where Value: Codable {
     public init(

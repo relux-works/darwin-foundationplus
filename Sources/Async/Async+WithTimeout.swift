@@ -9,7 +9,7 @@ public func withTimeout<Return: Sendable>(
     isolation: isolated (any Actor)? = #isolation,
     for duration: ContinuousClock.Instant.Duration,
     @_inheritActorContext _ operation: @escaping @Sendable () async throws -> Return
-) async throws -> Return {
+) async rethrows -> Return {
     return try await withTimeout(
         isolation: isolation,
         sleep: { try await Task.sleep(for: duration) },
@@ -21,7 +21,7 @@ public func withTimeout<Return: Sendable>(
     isolation: isolated (any Actor)? = #isolation,
     nanoseconds: UInt64,
     @_inheritActorContext _ operation: @escaping @Sendable () async throws -> Return
-) async throws -> Return {
+) async rethrows -> Return {
     return try await withTimeout(
         isolation: isolation,
         sleep: { try await Task.sleep(nanoseconds: nanoseconds) },
@@ -31,9 +31,9 @@ public func withTimeout<Return: Sendable>(
 
 private func withTimeout<Return: Sendable>(
     isolation: isolated (any Actor)? = #isolation,
-    sleep: @escaping @isolated(any) () async throws -> Void,
+    sleep: @Sendable @escaping @isolated(any) () async throws -> Void,
     @_inheritActorContext _ operation: @escaping @Sendable () async throws -> Return
-) async throws -> Return {
+) async rethrows -> Return {
 
     let task = Ref<Task<(), Never>>(value: nil)
     let timeoutTask = Ref<Task<(), any Error>>(value: nil)

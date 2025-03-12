@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 
-public class CombineAsyncThrowingStream<Upstream: Publisher>: AsyncSequence {
+public class CombineAsyncThrowingStream<Upstream: Publisher>: AsyncSequence where Upstream.Output: Sendable {
     public typealias Element = Upstream.Output
     public typealias AsyncIterator = CombineAsyncThrowingStream<Upstream>
     private let stream: AsyncThrowingStream<Upstream.Output, Error>
@@ -45,7 +45,7 @@ extension CombineAsyncThrowingStream: AsyncIteratorProtocol {
     public func makeAsyncIterator() -> Self { self }
 }
 
-public extension Publisher {
+public extension Publisher where Output: Sendable {
     func asyncThrowingStream() -> CombineAsyncThrowingStream<Self> {
         CombineAsyncThrowingStream(self)
     }

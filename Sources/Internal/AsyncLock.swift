@@ -37,13 +37,13 @@ internal actor AsyncLock {
 	///
 	/// - Parameter work: A closure to execute while holding the lock.
 	/// - Returns: The result of the closure.
-    internal func withLock<T>(_ work: () async throws -> T) async rethrows -> T {
+    internal func withLock<T: Sendable>(_ work: () async throws -> T) async rethrows -> T {
 		await lock()
 		defer { unlock() }
 		return try await work()
 	}
 
-    internal func withLock<T>(_ work: () async -> T) async -> T {
+    internal func withLock<T: Sendable>(_ work: () async -> T) async -> T {
         await lock()
         defer { unlock() }
         return await work()
