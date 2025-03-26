@@ -1,4 +1,4 @@
-public struct Price<C: ICurrency> {
+public struct Price<C: ICurrency>: Sendable where ICurrency: Sendable {
     public let value: Double
     public let currency: C
 
