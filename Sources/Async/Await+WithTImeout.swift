@@ -10,10 +10,10 @@ public struct TimedOutError: Error, Equatable {}
 /// - Returns: Returns the result of `work` if it completed in time.
 /// - Throws: Throws ``TimedOutError`` if the timeout expires before `work` completes.
 ///   If `work` throws an error before the timeout expires, that error is propagated to the caller.
-public func `async`<R>(
+public func `async`<R: Sendable>(
     timeoutAfter maxDuration: TimeInterval,
-    do work: @escaping () async throws -> R
-) async throws -> R {
+    do work: @Sendable @escaping () async throws -> R
+) async rethrows -> R {
     try await withThrowingTaskGroup(of: R.self) { group in
         // Start timeout child task.
         group.addTask {

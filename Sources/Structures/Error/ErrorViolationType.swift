@@ -1,6 +1,6 @@
 import Foundation
 
-public enum ErrorViolation: String {
+public enum ErrorViolation: String, Sendable {
     
     /// some problems with authentication
     case authProblem = "AuthProblem"

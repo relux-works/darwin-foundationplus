@@ -1,7 +1,7 @@
 import Combine
 
-extension Publisher where Self.Failure == Never {
-    public func sink(receiveValue: @escaping (Self.Output) async -> Void) -> AnyCancellable {
+extension Publisher where Output: Sendable, Failure == Never {
+    public func sink(receiveValue: @Sendable @escaping (Output) async -> Void) -> AnyCancellable {
         sink { value in
             Task {
                 await receiveValue(value)
@@ -10,17 +10,18 @@ extension Publisher where Self.Failure == Never {
     }
 }
 
-extension Publisher {
-    public func tryFlatMap<T>(_ transform: @escaping (Self.Output) async throws -> T) -> Publishers.FlatMap<Future<T, Error>, Self> {
+extension Publisher where Output: Sendable {
+    public func tryFlatMap<T: Sendable>(_ transform: @Sendable @escaping (Output) async throws -> T) -> Publishers.FlatMap<Future<T, Error>, Self> {
         flatMap { value in
             Future { promise in
+                let promiseBox = UncheckedSendableWrapper(payload: promise)
                 Task {
                     do {
                         let result = try await transform(value)
-                        promise(.success(result))
+                        promiseBox.payload(.success(result))
                     }
                     catch {
-                        promise(.failure(error))
+                        promiseBox.payload(.failure(error))
                     }
                 }
             }

@@ -36,7 +36,7 @@ private extension Publishers.AsyncMap {
 		private let downstream: Downstream
 		private let transform: @Sendable (Input) async throws -> Output
 		private let lock = AsyncLock()
-		private var subscription: Subscription?
+        private var subscription: UncheckedSendableWrapper<Subscription>?
 		private var pending = 0
 		private var buffer: [Input] = []
 		private var demand: Subscribers.Demand = .none
@@ -48,10 +48,11 @@ private extension Publishers.AsyncMap {
 			self.transform = transform
 		}
 
-		func receive(subscription: Subscription) {
+        func receive(subscription: Subscription) {
+            let subscriptionBox = UncheckedSendableWrapper(payload: subscription)
 			Task {
 				await lock.withLock {
-					self.subscription = subscription
+                    self.subscription = subscriptionBox
 					downstream.receive(subscription: self)
 				}
 			}
@@ -90,7 +91,7 @@ private extension Publishers.AsyncMap {
 		func cancel() {
 			Task {
 				await lock.withLock {
-					subscription?.cancel()
+                    subscription?.payload.cancel()
 					subscription = nil
 					taskCancellation?()
 				}
@@ -118,7 +119,7 @@ private extension Publishers.AsyncMap {
 			}
 
 			if buffer.isEmpty {
-				subscription?.request(.max(1))
+                subscription?.payload.request(.max(1))
 			}
 		}
 
@@ -135,7 +136,7 @@ private extension Publishers.AsyncMap {
 		private func deliverCompletion(_ completion: Subscribers.Completion<Failure>) async {
 			await lock.withLock {
 				pending -= 1
-				subscription?.cancel()
+                subscription?.payload.cancel()
 				subscription = nil
 				downstream.receive(completion: completion)
 			}

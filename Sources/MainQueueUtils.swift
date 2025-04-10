@@ -5,7 +5,7 @@ import Foundation
 /// ❗️Mind the capture semantics; *action* is captured immediately on *delay* call.
 /// - parameter delayTime: time in seconds to wait until execution starts
 /// - parameter action: a block of code to execute
-public func delay(for delayTime: Double?, action: @escaping  () -> Void) {
+public func delay(for delayTime: Double?, action: @Sendable @escaping  () -> Void) {
     let delay = delayTime ?? 0.0
     DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
         action()
@@ -17,13 +17,13 @@ public func delay(for delayTime: Double?, action: @escaping  () -> Void) {
 /// ❗️Mind the capture semantics; *action* is captured immediately on *delay* call.
 /// - parameter delayTime: a time to whait until execution starts
 /// - parameter action: a block of code to execute
-public func delay(_ delayTime: Double = 0.0, action: @escaping  () -> Void) {
+public func delay(_ delayTime: Double = 0.0, action: @Sendable @escaping  () -> Void) {
     DispatchQueue.main.asyncAfter(deadline: .now() + delayTime) {
         action()
     }
 }
 
-public func exec(action: @escaping  () -> Void) {
+public func exec(action: @Sendable @escaping  () -> Void) {
     DispatchQueue.main.async {
         action()
     }

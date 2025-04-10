@@ -1,7 +1,7 @@
 import Foundation
 
 public struct ProgressiveDelay {
-    public typealias Transformation = (TimeInterval) -> TimeInterval
+    public typealias Transformation = @Sendable (TimeInterval) -> TimeInterval
     public typealias Id = String
 
     public private(set) var id: Id
@@ -59,7 +59,7 @@ public struct ProgressiveDelay {
 }
 
 public extension ProgressiveDelay {
-    static var exponentialTransformer: Transformation = { delay in
+    static let exponentialTransformer: Transformation = { delay in
         guard delay > 0 else { return 1 }
         return exp(delay)
     }

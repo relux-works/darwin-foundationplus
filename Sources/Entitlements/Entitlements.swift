@@ -6,7 +6,7 @@ import Foundation
 
 public class Entitlements {
 
-    public struct Key {
+    public struct Key: Sendable {
 
         let rawKey: String
 
@@ -48,7 +48,7 @@ public class Entitlements {
         public static let driverKit = Key("com.apple.developer.driverkit.transport.pci")
     }
 
-    static let empty: Entitlements = Entitlements([:])
+    nonisolated(unsafe) static let empty: Entitlements = Entitlements([:])
 
     private let values: [String: Any]
 
