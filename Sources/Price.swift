@@ -1,4 +1,4 @@
-public struct Price<C: ICurrency>: Sendable where ICurrency: Sendable {
+public struct Price<C: ICurrency>: Sendable {
     public let value: Double
     public let currency: C
 
@@ -25,7 +25,7 @@ public extension Price {
     }
 }
 
-public protocol ICurrency {
+public protocol ICurrency: Sendable {
     var symbol: String { get }
     var ticker: String { get }
 }
