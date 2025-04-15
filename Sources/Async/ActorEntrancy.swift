@@ -1,4 +1,4 @@
-public final class ActorEntrancy {
+public final class ActorEntrancy: Sendable {
     private let semaphore = AsyncSemaphore(value: 1)
 
     public init() {
