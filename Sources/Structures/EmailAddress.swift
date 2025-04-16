@@ -1,6 +1,6 @@
 import Foundation
 
-public struct EmailAddress: Equatable, Codable {
+public struct EmailAddress: Equatable, Codable, Sendable {
     private let localPart: String
     private let domain: String
 
