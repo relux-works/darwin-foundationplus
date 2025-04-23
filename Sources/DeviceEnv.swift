@@ -5,7 +5,11 @@ public enum DeviceEnv {
     case dev
 
     public static var isSimulator : Bool {
-        TARGET_OS_SIMULATOR != 0
+#if targetEnvironment(simulator)
+        true
+#else
+        false
+#endif
     }
 
     public var label: String {
