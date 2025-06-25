@@ -25,7 +25,7 @@ public extension Price {
     }
 }
 
-public protocol ICurrency: Sendable {
+public protocol ICurrency: Sendable, Hashable, Equatable {
     var symbol: String { get }
     var ticker: String { get }
 }
@@ -53,6 +53,7 @@ extension Price: Equatable where C == Currency {
     }
 }
 
+extension Price: Hashable where C == Currency {}
 
 #if canImport(Darwin)
 import Darwin
